@@ -15,11 +15,11 @@ suite('$reducer', () => {
     expect(count.get()).toEqual(1);
   });
 
-  // test('should increment value with args', () => {
-  //   const count = $reducer(0, {
-  //     increment: (state: number, value: number) => state + value,
-  //   });
-  //   count.increment(5);
-  //   expect(count.get()).toEqual(5);
-  // });
+  test('should increment value with args', () => {
+    const count = $reducer(0, {
+      increment: (state: number, value: number) => state + value,
+    });
+    count.increment(5);
+    expect(count.get()).toEqual(5);
+  });
 });

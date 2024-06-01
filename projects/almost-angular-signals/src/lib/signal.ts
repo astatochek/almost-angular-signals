@@ -58,24 +58,20 @@ export function $computed<T, D extends Record<string, unknown>>(
   } as ReadonlySignal<T>;
 }
 
-export type Reducer<T, Args extends unknown[]> = (state: T, ...args: Args) => T;
+export type Reducer<T, Args extends any[]> = (state: T, ...args: Args) => T;
 
-export type Actions<
-  T,
-  Reducers extends Record<string, Reducer<T, unknown[]>>,
-> = {
+export type Actions<T, Reducers extends Record<string, Reducer<T, any[]>>> = {
   [key in keyof Reducers]: Reducers[key] extends (
     state: T,
     ...args: infer Args
   ) => T
-    ? (...args: Args) => void
+    ? Args extends []
+      ? () => void
+      : (...args: Args) => void
     : never;
 };
 
-export function $reducer<
-  T,
-  Reducers extends Record<string, Reducer<T, unknown[]>>,
->(
+export function $reducer<T, Reducers extends Record<string, Reducer<T, any[]>>>(
   defaultValue: T,
   reducers: Reducers,
 ): ReadonlySignal<T> & Actions<T, Reducers> {
