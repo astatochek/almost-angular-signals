@@ -10,3 +10,4 @@ export {
   Actions,
 } from './lib/signal';
 export { GetPipe } from './lib/get.pipe';
+export { $effect } from './lib/effect';

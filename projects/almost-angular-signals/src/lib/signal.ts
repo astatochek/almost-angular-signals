@@ -93,7 +93,7 @@ export function $reducer<T, Reducers extends Record<string, Reducer<T, any[]>>>(
   } as ReadonlySignal<T> & Actions<T, Reducers>;
 }
 
-function isSignal(value: unknown): value is { [NODE]: SignalNode } {
+export function isSignal(value: unknown): value is { [NODE]: SignalNode } {
   try {
     return (value as any)[NODE] instanceof SignalNode;
   } catch (e) {
