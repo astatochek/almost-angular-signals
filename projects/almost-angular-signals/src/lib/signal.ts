@@ -41,12 +41,10 @@ export function $computed<T, D extends Record<string, unknown>>(
   const DEFAULT = Symbol('DEFAULT');
   let value: T | typeof DEFAULT = DEFAULT;
   for (const source of Object.values(dependencies)) {
-    if (!isSignal(source))
-      throwSignalError(
-        source,
-        'Cannot add a no-signal as a Computed dependency',
-      );
-    source[NODE].addWeakListener(node);
+    getSignalNode(
+      source,
+      'Cannot add a no-signal as a Computed dependency',
+    ).addWeakListener(node);
   }
 
   return {
@@ -66,4 +64,14 @@ function isSignal(value: unknown): value is { [NODE]: SignalNode } {
   } catch (e) {
     return false;
   }
+}
+
+export function getSignalNode(
+  signal: ReadonlySignal<unknown>,
+  throwback: string,
+): SignalNode | never {
+  if (isSignal(signal)) {
+    return signal[NODE];
+  }
+  throwSignalError(signal, throwback);
 }
