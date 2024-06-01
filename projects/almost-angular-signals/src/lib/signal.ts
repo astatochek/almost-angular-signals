@@ -58,6 +58,45 @@ export function $computed<T, D extends Record<string, unknown>>(
   } as ReadonlySignal<T>;
 }
 
+export type Reducer<T, Args extends unknown[]> = (state: T, ...args: Args) => T;
+
+export type Actions<
+  T,
+  Reducers extends Record<string, Reducer<T, unknown[]>>,
+> = {
+  [key in keyof Reducers]: Reducers[key] extends (
+    state: T,
+    ...args: infer Args
+  ) => T
+    ? (...args: Args) => void
+    : never;
+};
+
+export function $reducer<
+  T,
+  Reducers extends Record<string, Reducer<T, unknown[]>>,
+>(
+  defaultValue: T,
+  reducers: Reducers,
+): ReadonlySignal<T> & Actions<T, Reducers> {
+  const _signal = $signal(defaultValue);
+  const _actions = Object.entries(reducers).reduce(
+    (acc, [key, reducer]) => {
+      (acc as any)[key] = (...args: any[]) => {
+        _signal.set(reducer(_signal.get(), ...args));
+      };
+      return acc;
+    },
+    {} as Actions<T, Reducers>,
+  );
+
+  return {
+    [NODE]: getSignalNode(_signal, ''),
+    get: () => _signal.get(),
+    ..._actions,
+  } as ReadonlySignal<T> & Actions<T, Reducers>;
+}
+
 function isSignal(value: unknown): value is { [NODE]: SignalNode } {
   try {
     return (value as any)[NODE] instanceof SignalNode;

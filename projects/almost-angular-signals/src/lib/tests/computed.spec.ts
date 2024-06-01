@@ -1,5 +1,5 @@
 import { expect, suite, test, vi } from 'vitest';
-import { $signal, $computed } from './signal';
+import { $signal, $computed } from '../signal';
 
 suite('$computed', () => {
   test('should get value', () => {
