@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@almost/angular-signals": {
+    "almost-angular-signals": {
       "projectType": "library",
-      "root": "projects/almost/angular-signals",
-      "sourceRoot": "projects/almost/angular-signals/src",
+      "root": "projects/almost-angular-signals",
+      "sourceRoot": "projects/almost-angular-signals/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/almost/angular-signals/ng-package.json"
+            "project": "projects/almost-angular-signals/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/almost/angular-signals/tsconfig.lib.prod.json"
+              "tsConfig": "projects/almost-angular-signals/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/almost/angular-signals/tsconfig.lib.json"
+              "tsConfig": "projects/almost-angular-signals/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"

@@ -43,3 +43,4 @@ Thumbs.db
 .vscode
 .editorconfig
 bun.lockb
+projects/almost-angular-signals/node_modules/.vite/vitest

@@ -1,11 +1,11 @@
-import { SignalNode } from "./signal-node";
+import { SignalNode } from './signal-node';
 import {
   SignalDependenciesRecord,
   getSignalValues,
   throwSignalError,
-} from "./utils";
+} from './utils';
 
-const NODE = Symbol("SIGNAL_NODE");
+const NODE = Symbol('SIGNAL_NODE');
 
 export interface ReadonlySignal<T> {
   get(): T;
@@ -38,13 +38,13 @@ export function $computed<T, D extends Record<string, unknown>>(
   dependencies: SignalDependenciesRecord<D>,
 ): ReadonlySignal<T> {
   const node = new SignalNode();
-  const DEFAULT = Symbol("DEFAULT");
+  const DEFAULT = Symbol('DEFAULT');
   let value: T | typeof DEFAULT = DEFAULT;
   for (const source of Object.values(dependencies)) {
     if (!isSignal(source))
       throwSignalError(
         source,
-        "Cannot add a no-signal as a Computed dependency",
+        'Cannot add a no-signal as a Computed dependency',
       );
     source[NODE].addWeakListener(node);
   }
